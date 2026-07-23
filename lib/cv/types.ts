@@ -33,6 +33,12 @@ export type Language = {
   proficiency: string;
 };
 
+export type Certificate = {
+  id: string;
+  title: string;
+  description: string;
+};
+
 export type Reference = {
   id: string;
   name: string;
@@ -62,6 +68,7 @@ export type CvDocument = {
   workExperience: WorkExperience[];
   education: Education[];
   languages: Language[];
+  certificates: Certificate[];
   references: Reference[];
   socialLinks: SocialLink[];
 };

@@ -1,4 +1,5 @@
 import type {
+  Certificate,
   CvDocument,
   Education,
   Language,
@@ -48,6 +49,14 @@ export function createEmptyLanguage(): Language {
   };
 }
 
+export function createEmptyCertificate(): Certificate {
+  return {
+    id: createId("certificate"),
+    title: "",
+    description: "",
+  };
+}
+
 export function createEmptyReference(): Reference {
   return {
     id: createId("reference"),
@@ -88,6 +97,7 @@ export function createEmptyCv(): CvDocument {
     workExperience: [createEmptyWorkExperience()],
     education: [createEmptyEducation()],
     languages: [createEmptyLanguage()],
+    certificates: [],
     references: [],
     socialLinks: [createEmptySocialLink()],
   };

@@ -21,7 +21,6 @@ function isCvDocument(value: unknown): value is CvDocument {
     Array.isArray(value.workExperience) &&
     Array.isArray(value.education) &&
     Array.isArray(value.languages) &&
-    Array.isArray(value.references) &&
     Array.isArray(value.socialLinks)
   );
 }
@@ -47,6 +46,8 @@ export function loadCvs(): CvDocument[] {
     return parsed.filter(isCvDocument).map((cv) => ({
       ...cv,
       language: cv.language === "tr" ? "tr" : "en",
+      certificates: Array.isArray(cv.certificates) ? cv.certificates : [],
+      references: Array.isArray(cv.references) ? cv.references : [],
     }));
   } catch {
     return [];

@@ -4,6 +4,7 @@ import { AccordionSection } from "@/components/builder/AccordionSection";
 import { EmptyState } from "@/components/builder/EmptyState";
 import { Field } from "@/components/builder/Field";
 import {
+  createEmptyCertificate,
   createEmptyEducation,
   createEmptyLanguage,
   createEmptyReference,
@@ -11,6 +12,7 @@ import {
   createEmptyWorkExperience,
 } from "@/lib/cv/defaults";
 import type {
+  Certificate,
   CvDocument,
   CvValidation,
   Education,
@@ -82,6 +84,15 @@ export function CvEditor({ cv, validation, onChange }: CvEditorProps) {
     update({
       ...cv,
       languages: cv.languages.map((item) =>
+        item.id === id ? { ...item, ...changes } : item,
+      ),
+    });
+  }
+
+  function updateCertificate(id: string, changes: Partial<Certificate>) {
+    update({
+      ...cv,
+      certificates: cv.certificates.map((item) =>
         item.id === id ? { ...item, ...changes } : item,
       ),
     });
@@ -189,31 +200,86 @@ export function CvEditor({ cv, validation, onChange }: CvEditorProps) {
           />
         </AccordionSection>
 
-        <AccordionSection title="Skills">
-          <div className="space-y-3">
-            {cv.skills.map((skill, index) => (
-              <div key={index} className="flex gap-2">
-                <Field
-                  label={`Skill ${index + 1}`}
-                  value={skill}
-                  className="flex-1"
-                  onValueChange={(value) => updateSkill(index, value)}
-                />
+        <AccordionSection title="Education">
+          <div className="space-y-4">
+            {cv.education.map((item) => (
+              <div
+                key={item.id}
+                className="rounded-lg border border-slate-200 bg-slate-50 p-3"
+              >
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <Field
+                    label="School"
+                    value={item.school}
+                    onValueChange={(school) =>
+                      updateEducation(item.id, { school })
+                    }
+                  />
+                  <Field
+                    label="Degree"
+                    value={item.degree}
+                    onValueChange={(degree) =>
+                      updateEducation(item.id, { degree })
+                    }
+                  />
+                  <Field
+                    label="Location"
+                    value={item.location}
+                    onValueChange={(location) =>
+                      updateEducation(item.id, { location })
+                    }
+                  />
+                  <Field
+                    label="Start Date"
+                    value={item.startDate}
+                    onValueChange={(startDate) =>
+                      updateEducation(item.id, { startDate })
+                    }
+                  />
+                  <Field
+                    label="End Date"
+                    value={item.endDate}
+                    onValueChange={(endDate) =>
+                      updateEducation(item.id, { endDate })
+                    }
+                  />
+                  <Field
+                    label="Description"
+                    multiline
+                    value={item.description}
+                    className="sm:col-span-2"
+                    onValueChange={(description) =>
+                      updateEducation(item.id, { description })
+                    }
+                  />
+                </div>
                 <button
                   type="button"
-                  onClick={() => removeSkill(index)}
-                  className="mt-7 h-10 rounded-lg border border-slate-200 px-3 text-sm font-medium text-slate-600 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200"
+                  onClick={() =>
+                    update({
+                      ...cv,
+                      education: cv.education.filter(
+                        (education) => education.id !== item.id,
+                      ),
+                    })
+                  }
+                  className="mt-3 rounded-lg border border-red-200 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-50 focus:outline-none focus:ring-4 focus:ring-red-100"
                 >
-                  Remove
+                  Remove Education
                 </button>
               </div>
             ))}
             <button
               type="button"
-              onClick={() => update({ ...cv, skills: [...cv.skills, ""] })}
+              onClick={() =>
+                update({
+                  ...cv,
+                  education: [...cv.education, createEmptyEducation()],
+                })
+              }
               className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-100"
             >
-              Add Skill
+              Add Education
             </button>
           </div>
         </AccordionSection>
@@ -319,86 +385,31 @@ export function CvEditor({ cv, validation, onChange }: CvEditorProps) {
           </div>
         </AccordionSection>
 
-        <AccordionSection title="Education">
-          <div className="space-y-4">
-            {cv.education.map((item) => (
-              <div
-                key={item.id}
-                className="rounded-lg border border-slate-200 bg-slate-50 p-3"
-              >
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <Field
-                    label="School"
-                    value={item.school}
-                    onValueChange={(school) =>
-                      updateEducation(item.id, { school })
-                    }
-                  />
-                  <Field
-                    label="Degree"
-                    value={item.degree}
-                    onValueChange={(degree) =>
-                      updateEducation(item.id, { degree })
-                    }
-                  />
-                  <Field
-                    label="Location"
-                    value={item.location}
-                    onValueChange={(location) =>
-                      updateEducation(item.id, { location })
-                    }
-                  />
-                  <Field
-                    label="Start Date"
-                    value={item.startDate}
-                    onValueChange={(startDate) =>
-                      updateEducation(item.id, { startDate })
-                    }
-                  />
-                  <Field
-                    label="End Date"
-                    value={item.endDate}
-                    onValueChange={(endDate) =>
-                      updateEducation(item.id, { endDate })
-                    }
-                  />
-                  <Field
-                    label="Description"
-                    multiline
-                    value={item.description}
-                    className="sm:col-span-2"
-                    onValueChange={(description) =>
-                      updateEducation(item.id, { description })
-                    }
-                  />
-                </div>
+        <AccordionSection title="Skills">
+          <div className="space-y-3">
+            {cv.skills.map((skill, index) => (
+              <div key={index} className="flex gap-2">
+                <Field
+                  label={`Skill ${index + 1}`}
+                  value={skill}
+                  className="flex-1"
+                  onValueChange={(value) => updateSkill(index, value)}
+                />
                 <button
                   type="button"
-                  onClick={() =>
-                    update({
-                      ...cv,
-                      education: cv.education.filter(
-                        (education) => education.id !== item.id,
-                      ),
-                    })
-                  }
-                  className="mt-3 rounded-lg border border-red-200 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-50 focus:outline-none focus:ring-4 focus:ring-red-100"
+                  onClick={() => removeSkill(index)}
+                  className="mt-7 h-10 rounded-lg border border-slate-200 px-3 text-sm font-medium text-slate-600 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200"
                 >
-                  Remove Education
+                  Remove
                 </button>
               </div>
             ))}
             <button
               type="button"
-              onClick={() =>
-                update({
-                  ...cv,
-                  education: [...cv.education, createEmptyEducation()],
-                })
-              }
+              onClick={() => update({ ...cv, skills: [...cv.skills, ""] })}
               className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-100"
             >
-              Add Education
+              Add Skill
             </button>
           </div>
         </AccordionSection>
@@ -446,6 +457,69 @@ export function CvEditor({ cv, validation, onChange }: CvEditorProps) {
               className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-100"
             >
               Add Language
+            </button>
+          </div>
+        </AccordionSection>
+
+        <AccordionSection title="Certificates">
+          <div className="space-y-4">
+            {cv.certificates.length === 0 ? (
+              <EmptyState
+                title="No certificates yet"
+                description="Add certificates only when you want them on the CV."
+              />
+            ) : null}
+            {cv.certificates.map((item) => (
+              <div
+                key={item.id}
+                className="rounded-lg border border-slate-200 bg-slate-50 p-3"
+              >
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <Field
+                    label="Title"
+                    value={item.title}
+                    onValueChange={(title) =>
+                      updateCertificate(item.id, { title })
+                    }
+                  />
+                  <Field
+                    label="Description"
+                    value={item.description}
+                    onValueChange={(description) =>
+                      updateCertificate(item.id, { description })
+                    }
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() =>
+                    update({
+                      ...cv,
+                      certificates: cv.certificates.filter(
+                        (certificate) => certificate.id !== item.id,
+                      ),
+                    })
+                  }
+                  className="mt-3 rounded-lg border border-red-200 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-50 focus:outline-none focus:ring-4 focus:ring-red-100"
+                >
+                  Remove Certificate
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={() =>
+                update({
+                  ...cv,
+                  certificates: [
+                    ...cv.certificates,
+                    createEmptyCertificate(),
+                  ],
+                })
+              }
+              className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-100"
+            >
+              Add Certificate
             </button>
           </div>
         </AccordionSection>

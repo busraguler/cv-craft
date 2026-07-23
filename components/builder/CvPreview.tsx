@@ -24,6 +24,7 @@ const translations = {
     education: "Education",
     degree: "Degree",
     languages: "Languages",
+    certificates: "Certificates",
     references: "References",
     present: "Present",
   },
@@ -41,6 +42,7 @@ const translations = {
     education: "Eğitim",
     degree: "Bölüm",
     languages: "Diller",
+    certificates: "Sertifikalar",
     references: "Referanslar",
     present: "Devam Ediyor",
   },
@@ -57,6 +59,9 @@ export function CvPreview({ cv }: CvPreviewProps) {
   );
   const languages = cv.languages.filter((item) =>
     hasText(item.name, item.proficiency),
+  );
+  const certificates = cv.certificates.filter((item) =>
+    hasText(item.title, item.description),
   );
   const references = cv.references.filter((item) =>
     hasText(item.name, item.role, item.company, item.email, item.phone),
@@ -152,12 +157,34 @@ export function CvPreview({ cv }: CvPreviewProps) {
             </section>
           ) : null}
 
-          {skills.length > 0 ? (
+          {education.length > 0 ? (
             <section>
-              <h2 className="cv-heading">{text.skills}</h2>
-              <p className="mt-2 text-sm leading-6 text-slate-700">
-                {skills.join(", ")}
-              </p>
+              <h2 className="cv-heading">{text.education}</h2>
+              <div className="mt-3 space-y-4">
+                {education.map((item) => (
+                  <div key={item.id}>
+                    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                      <h3 className="text-base font-semibold text-slate-950">
+                        {item.degree || text.degree}
+                        {item.school ? `, ${item.school}` : ""}
+                      </h3>
+                      <p className="text-sm font-medium text-slate-600">
+                        {formatDateRange(item.startDate, item.endDate)}
+                      </p>
+                    </div>
+                    {item.location ? (
+                      <p className="mt-1 text-sm text-slate-600">
+                        {item.location}
+                      </p>
+                    ) : null}
+                    {item.description ? (
+                      <p className="mt-2 text-sm leading-6 text-slate-700">
+                        {item.description}
+                      </p>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
             </section>
           ) : null}
 
@@ -203,34 +230,12 @@ export function CvPreview({ cv }: CvPreviewProps) {
             </section>
           ) : null}
 
-          {education.length > 0 ? (
+          {skills.length > 0 ? (
             <section>
-              <h2 className="cv-heading">{text.education}</h2>
-              <div className="mt-3 space-y-4">
-                {education.map((item) => (
-                  <div key={item.id}>
-                    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                      <h3 className="text-base font-semibold text-slate-950">
-                        {item.degree || text.degree}
-                        {item.school ? `, ${item.school}` : ""}
-                      </h3>
-                      <p className="text-sm font-medium text-slate-600">
-                        {formatDateRange(item.startDate, item.endDate)}
-                      </p>
-                    </div>
-                    {item.location ? (
-                      <p className="mt-1 text-sm text-slate-600">
-                        {item.location}
-                      </p>
-                    ) : null}
-                    {item.description ? (
-                      <p className="mt-2 text-sm leading-6 text-slate-700">
-                        {item.description}
-                      </p>
-                    ) : null}
-                  </div>
-                ))}
-              </div>
+              <h2 className="cv-heading">{text.skills}</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-700">
+                {skills.join(", ")}
+              </p>
             </section>
           ) : null}
 
@@ -244,6 +249,20 @@ export function CvPreview({ cv }: CvPreviewProps) {
                   )
                   .join(", ")}
               </p>
+            </section>
+          ) : null}
+
+          {certificates.length > 0 ? (
+            <section>
+              <h2 className="cv-heading">{text.certificates}</h2>
+              <div className="mt-3 space-y-3">
+                {certificates.map((item) => (
+                  <div key={item.id} className="text-sm leading-6 text-slate-700">
+                    <p className="font-semibold text-slate-950">{item.title}</p>
+                    {item.description ? <p>{item.description}</p> : null}
+                  </div>
+                ))}
+              </div>
             </section>
           ) : null}
 
