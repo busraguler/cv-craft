@@ -71,8 +71,8 @@ export function CvPreview({ cv }: CvPreviewProps) {
   );
 
   return (
-    <section className="min-h-0 overflow-y-auto rounded-2xl border border-slate-200 bg-slate-200/70 p-3 shadow-sm">
-      <div className="mb-3 flex items-center justify-between px-1">
+    <section className="print-preview-shell min-h-0 overflow-y-auto rounded-2xl border border-slate-200 bg-slate-200/70 p-3 shadow-sm">
+      <div className="print-preview-toolbar mb-3 flex items-center justify-between px-1">
         <h2 className="text-base font-semibold text-slate-950">Preview</h2>
         <span className="text-xs font-medium text-slate-500">
           Print layout
@@ -84,7 +84,7 @@ export function CvPreview({ cv }: CvPreviewProps) {
         aria-label="CV preview"
         className="cv-preview mx-auto min-h-[960px] w-full max-w-[794px] bg-white px-10 py-10 text-slate-950 shadow-md"
       >
-        <header className="border-b border-slate-300 pb-5">
+        <header>
           <h1 className="text-3xl font-bold tracking-normal">
             {cv.personalInfo.fullName || text.yourName}
           </h1>
@@ -147,7 +147,7 @@ export function CvPreview({ cv }: CvPreviewProps) {
           ) : null}
         </header>
 
-        <div className="mt-8 space-y-9">
+        <div className="mt-6 space-y-9">
           {cv.about.trim() ? (
             <section>
               <h2 className="cv-heading">{text.about}</h2>

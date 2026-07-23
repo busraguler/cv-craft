@@ -38,7 +38,7 @@ summary::-webkit-details-marker {
 }
 
 .cv-heading {
-  border-bottom: 2px solid #6b7280;
+  border-bottom: 1px solid #9ca3af;
   padding-bottom: 0.45rem;
   font-size: 0.95rem;
   font-weight: 800;
@@ -49,7 +49,7 @@ summary::-webkit-details-marker {
 
 @page {
   size: A4;
-  margin: 0;
+  margin: 0.5in;
 }
 
 @media print {
@@ -58,21 +58,48 @@ summary::-webkit-details-marker {
     background: white;
   }
 
-  body * {
-    visibility: hidden;
+  .builder-header,
+  .builder-mobile-nav,
+  .builder-sidebar-toggle,
+  .builder-sidebar-overlay,
+  .editor-pane,
+  .print-preview-toolbar {
+    display: none !important;
   }
 
-  #cv-preview,
-  #cv-preview * {
-    visibility: visible;
+  .builder-root,
+  .builder-workspace,
+  .preview-pane,
+  .print-preview-shell {
+    display: block !important;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    border: 0;
+    background: white;
+    box-shadow: none;
   }
 
   #cv-preview {
-    position: absolute;
-    inset: 0 auto auto 0;
+    position: static;
     width: 100%;
+    max-width: none;
     min-height: auto;
+    margin: 0;
     box-shadow: none;
-    padding: 0.5in;
+    padding: 0;
+    overflow: visible;
+  }
+
+  #cv-preview .cv-heading {
+    break-after: avoid-page;
+    page-break-after: avoid;
+  }
+
+  #cv-preview p,
+  #cv-preview li {
+    orphans: 3;
+    widows: 3;
   }
 }

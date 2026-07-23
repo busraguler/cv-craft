@@ -157,8 +157,8 @@ export function BuilderCvCraft() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col">
-      <header className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-white px-4 py-3 shadow-sm sm:px-6">
+    <main className="builder-root flex min-h-screen flex-col">
+      <header className="builder-header flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-white px-4 py-3 shadow-sm sm:px-6">
         <div>
           <Link
             href="/"
@@ -187,7 +187,7 @@ export function BuilderCvCraft() {
       </header>
 
       <nav
-        className="grid grid-cols-2 gap-2 border-b border-slate-200 bg-white p-3 lg:hidden"
+        className="builder-mobile-nav grid grid-cols-2 gap-2 border-b border-slate-200 bg-white p-3 lg:hidden"
         aria-label="Builder sections"
       >
         {tabs.map((tab) => (
@@ -212,7 +212,7 @@ export function BuilderCvCraft() {
         aria-expanded={sidebarOpen}
         aria-controls="cv-drawer"
         aria-label={sidebarOpen ? "Close CV list" : "Open CV list"}
-        className={`fixed top-20 z-[60] flex size-11 items-center justify-center rounded-r-xl border border-l-0 border-slate-800 bg-slate-900 text-2xl font-semibold text-white shadow-md transition-[left,background-color] hover:bg-black focus:outline-none focus:ring-4 focus:ring-slate-200 ${
+        className={`builder-sidebar-toggle fixed top-20 z-[60] flex size-11 items-center justify-center rounded-r-xl border border-l-0 border-slate-800 bg-slate-900 text-2xl font-semibold text-white shadow-md transition-[left,background-color] hover:bg-black focus:outline-none focus:ring-4 focus:ring-slate-200 ${
           sidebarOpen ? "left-[min(90vw,340px)]" : "left-0"
         }`}
       >
@@ -221,7 +221,7 @@ export function BuilderCvCraft() {
 
       {sidebarOpen ? (
         <div
-          className="fixed inset-0 z-50 bg-slate-950/35 backdrop-blur-[2px]"
+          className="builder-sidebar-overlay fixed inset-0 z-50 bg-slate-950/35 backdrop-blur-[2px]"
           role="dialog"
           aria-modal="true"
           aria-label="CV list"
@@ -252,10 +252,10 @@ export function BuilderCvCraft() {
         </div>
       ) : null}
 
-      <div className="grid min-h-0 flex-1 gap-5 p-4 lg:grid-cols-[minmax(420px,1fr)_minmax(360px,0.95fr)] lg:p-6">
+      <div className="builder-workspace grid min-h-0 flex-1 gap-5 p-4 lg:grid-cols-[minmax(420px,1fr)_minmax(360px,0.95fr)] lg:p-6">
 
         <div
-          className={`${activeTab === "editor" ? "block" : "hidden"} min-h-0 lg:block`}
+          className={`editor-pane ${activeTab === "editor" ? "block" : "hidden"} min-h-0 lg:block`}
         >
           <CvEditor
             cv={selectedCv}
@@ -265,7 +265,7 @@ export function BuilderCvCraft() {
         </div>
 
         <div
-          className={`${activeTab === "preview" ? "block" : "hidden"} min-h-0 lg:block`}
+          className={`preview-pane ${activeTab === "preview" ? "block" : "hidden"} min-h-0 lg:block`}
         >
           <CvPreview cv={selectedCv} />
         </div>
