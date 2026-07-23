@@ -11,14 +11,14 @@ export function AccordionSection({
 }: AccordionSectionProps) {
   return (
     <details
-      className="group rounded-lg border border-slate-200 bg-white shadow-sm"
+      className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:border-slate-300"
       open={defaultOpen}
     >
-      <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3 text-sm font-semibold text-slate-900 outline-none transition focus:ring-4 focus:ring-inset focus:ring-slate-200">
+      <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3.5 text-sm font-semibold text-slate-900 outline-none transition group-open:bg-slate-50 focus:ring-4 focus:ring-inset focus:ring-slate-100">
         {title}
         <span
           aria-hidden="true"
-          className="text-lg leading-none text-slate-500 transition group-open:rotate-45"
+          className="text-lg leading-none text-slate-400 transition group-open:rotate-45 group-open:text-slate-900"
         >
           +
         </span>

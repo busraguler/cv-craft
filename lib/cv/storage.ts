@@ -44,7 +44,10 @@ export function loadCvs(): CvDocument[] {
       return [];
     }
 
-    return parsed.filter(isCvDocument);
+    return parsed.filter(isCvDocument).map((cv) => ({
+      ...cv,
+      language: cv.language === "tr" ? "tr" : "en",
+    }));
   } catch {
     return [];
   }

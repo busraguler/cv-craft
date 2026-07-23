@@ -36,7 +36,7 @@ export function Field(props: InputProps | TextareaProps) {
           onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
             onValueChange(event.target.value)
           }
-          className="min-h-28 w-full resize-y rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm leading-6 text-slate-950 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:ring-4 focus:ring-slate-200"
+          className="min-h-28 w-full resize-y rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm leading-6 text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-slate-900 focus:ring-4 focus:ring-slate-100"
         />
       ) : (
         <input
@@ -45,7 +45,7 @@ export function Field(props: InputProps | TextareaProps) {
           onChange={(event: ChangeEvent<HTMLInputElement>) =>
             onValueChange(event.target.value)
           }
-          className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-950 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:ring-4 focus:ring-slate-200"
+          className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-slate-900 focus:ring-4 focus:ring-slate-100"
         />
       )}
       {error ? (

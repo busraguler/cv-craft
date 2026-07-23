@@ -10,6 +10,7 @@ type CvSidebarProps = {
   onSelect: (id: string) => void;
   onDelete: (id: string) => void;
   onExport: (id: string) => void;
+  onClose?: () => void;
 };
 
 export function CvSidebar({
@@ -19,21 +20,34 @@ export function CvSidebar({
   onSelect,
   onDelete,
   onExport,
+  onClose,
 }: CvSidebarProps) {
   return (
-    <aside className="flex min-h-0 flex-col rounded-lg border border-slate-200 bg-white shadow-sm">
+    <aside className="flex h-full min-h-0 flex-col overflow-hidden border-r border-slate-200 bg-white shadow-xl">
       <div className="flex items-center justify-between border-b border-slate-100 p-4">
         <div>
-          <h2 className="text-base font-semibold text-slate-950">Your CVs</h2>
+          <h2 className="text-base font-semibold text-slate-900">Your CVs</h2>
           <p className="text-sm text-slate-500">{cvs.length} saved</p>
         </div>
-        <button
-          type="button"
-          onClick={onCreate}
-          className="h-9 rounded-lg bg-slate-950 px-3 text-sm font-semibold text-white transition hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200"
-        >
-          New
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={onCreate}
+            className="h-9 rounded-xl bg-slate-900 px-3 text-sm font-semibold text-white shadow-sm transition hover:bg-black focus:outline-none focus:ring-4 focus:ring-slate-100"
+          >
+            New
+          </button>
+          {onClose ? (
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Close CV list"
+              className="flex size-9 items-center justify-center rounded-xl border border-slate-200 text-xl leading-none text-slate-500 transition hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus:ring-4 focus:ring-slate-100"
+            >
+              ×
+            </button>
+          ) : null}
+        </div>
       </div>
       <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-3">
         {cvs.length === 0 ? (
@@ -47,9 +61,21 @@ export function CvSidebar({
           return (
             <article
               key={cv.id}
-              className={`rounded-lg border p-3 transition ${
+              role="button"
+              tabIndex={0}
+              onClick={() => onSelect(cv.id)}
+              onKeyDown={(event) => {
+                if (
+                  event.target === event.currentTarget &&
+                  (event.key === "Enter" || event.key === " ")
+                ) {
+                  event.preventDefault();
+                  onSelect(cv.id);
+                }
+              }}
+              className={`cursor-pointer rounded-xl border p-3 transition hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-100 ${
                 selected
-                  ? "border-slate-950 bg-slate-50"
+                  ? "border-slate-900 bg-slate-50 ring-1 ring-slate-100"
                   : "border-slate-200 bg-white"
               }`}
             >
@@ -62,21 +88,30 @@ export function CvSidebar({
               <div className="mt-3 grid grid-cols-3 gap-2">
                 <button
                   type="button"
-                  onClick={() => onSelect(cv.id)}
-                  className="rounded-md border border-slate-200 px-2 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-300"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    onSelect(cv.id);
+                  }}
+                  className="rounded-lg border border-slate-900 bg-slate-900 px-2 py-1.5 text-xs font-semibold text-white transition hover:bg-black focus:outline-none focus:ring-2 focus:ring-slate-300"
                 >
                   Edit
                 </button>
                 <button
                   type="button"
-                  onClick={() => onExport(cv.id)}
-                  className="rounded-md border border-slate-200 px-2 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-300"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    onExport(cv.id);
+                  }}
+                  className="rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-300"
                 >
                   PDF
                 </button>
                 <button
                   type="button"
-                  onClick={() => onDelete(cv.id)}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    onDelete(cv.id);
+                  }}
                   className="rounded-md border border-red-200 px-2 py-1.5 text-xs font-medium text-red-700 transition hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-200"
                 >
                   Delete

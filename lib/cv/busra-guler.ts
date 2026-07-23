@@ -1,0 +1,171 @@
+import type { CvDocument } from "./types";
+
+const CV_DATE = "2026-07-14T00:00:00.000+03:00";
+
+export function createBusraGulerCv(): CvDocument {
+  return {
+    id: "cv-busra-guler-2026-07-14",
+    name: "Büşra Güler - 14.07.2026",
+    language: "tr",
+    createdAt: CV_DATE,
+    updatedAt: CV_DATE,
+    personalInfo: {
+      fullName: "Büşra Güler",
+      jobTitle: "Bilgisayar Mühendisi",
+      email: "busraguler1708@gmail.com",
+      phone: "05417679285",
+      location: "Antalya, Turkey",
+    },
+    about: "",
+    skills: [
+      "JavaScript (ES6+), TypeScript",
+      "React, Next.js",
+      "State Management (Redux, Context API, React Query)",
+      "HTML5, CSS3, Sass, Responsive Design",
+      "Component Design, Clean Code, Refactoring",
+      "Code Quality & Analysis (SonarQube)",
+      "Version Control & CI/CD (Git, Jenkins)",
+      "Agile Development (Jira, Scrum)",
+      "Development Tools (VS Code, Xcode, Android Studio)",
+    ],
+    workExperience: [
+      {
+        id: "work-kafein-vodafone",
+        company: "Kafein Yazılım Hizmetleri Ticaret AŞ / Vodafone",
+        role: "Senior Frontend Developer",
+        location: "",
+        startDate: "05/2023",
+        endDate: "",
+        current: true,
+        description: [
+          "Angular ile geliştirilmiş bayi tablet uygulamasının Next.js tabanlı modernizasyon sürecini başlattım ve halen teknik olarak yönetiyorum.",
+          "Her Şey Yanımda e-ticaret projesinde React & Next.js kullanarak sayfa ve komponent geliştirmeleri yaptım; mevcut yapıları refactor ederek performans, reusability ve maintainability iyileştirmeleri sağladım.",
+          "Ortak component yapıları ve kod standartlarının belirlenmesine katkı sağladım.",
+        ].join("\n"),
+      },
+      {
+        id: "work-experilabs-trive",
+        company: "Experilabs (formerly SAHABT Yazılım) / Trive",
+        role: "Yazılım Geliştirme Uzmanı",
+        location: "",
+        startDate: "08/2022",
+        endDate: "05/2023",
+        current: false,
+        description:
+          "MetaTrader tabanlı internal finans sistemlerinde React.js ile state management, form ve data-driven ekranlar üzerinde geliştirme ve iyileştirmeler yaptım.",
+      },
+      {
+        id: "work-gini",
+        company: "Gini Finansal Danışmanlık ve Bilgi Hizmetleri",
+        role: "Yazılım Mühendisi, Frontend Developer",
+        location: "",
+        startDate: "10/2020",
+        endDate: "07/2022",
+        current: false,
+        description: [
+          "Logo Yazılım için e-fatura ve e-irsaliye modüllerinde React ile frontend geliştirmeleri yaptım.",
+          "Talentscore Admin Panel’de React.js ile yeni feature’lar geliştirdim; performans ve kod kalitesine yönelik refactor çalışmaları yaptım.",
+          "Borusan Makina & Caterpillar projelerinde farklı web uygulamalarının frontend geliştirmelerini üstlendim. (React.js, JavaScript, Html, Css, Bootstrap)",
+          "Afiniti firmasının KPI Module Kick Off web projesinin frontend tarafında geliştirmeler yaptım. (React.js)",
+          "Burgan Bank Panorama projesinde web arayüzünü geliştirdim; Java & Spring Boot kullanarak veri scrape süreçlerine katkı sağladım.",
+          "Jet PFM mobil uygulamasında React Native ile component ve sayfa geliştirmeleri yaptım.",
+        ].join("\n"),
+      },
+      {
+        id: "work-112dijital-codingen",
+        company: "112dijital - Codingen",
+        role: "Yazılım Mühendisi, FullStack Developer",
+        location: "",
+        startDate: "10/2018",
+        endDate: "10/2020",
+        current: false,
+        description: [
+          "Depo operasyonlarını hızlandıran Coddepo mobil uygulamasını React Native ile geliştirdim; barkod okuma, iade ve raporlama süreçlerini kapsayan modüller üzerinde çalıştım.",
+          "Danışmanlığını yaptığımız firmalar için, mağaza ve internet stok yönetimini kolaylaştıracak aynı zamanda ürünlerin transferlerinin yapılmasını sağlayan mobil uygulamayı React Native ile geliştirdim.",
+          "Mobitte, anket sisteminin web arayüz ve admin panelini geliştirdim. (Codeigniter)",
+        ].join("\n"),
+      },
+      {
+        id: "work-sampa",
+        company:
+          "SAMPA Otomotiv Sanayi ve Ticaret Bilgi-Bilişim Teknolojileri Bölümü",
+        role: "Stajyer",
+        location: "",
+        startDate: "2017",
+        endDate: "2 ay",
+        current: false,
+        description:
+          "C# ile oyun ve simülasyon tabanlı masaüstü uygulamaları geliştirdim.",
+      },
+      {
+        id: "work-yesilirmak",
+        company: "Yeşilırmak Elektrik Dağıtım A.Ş",
+        role: "Stajyer",
+        location: "",
+        startDate: "2016",
+        endDate: "1 ay",
+        current: false,
+        description: "SAP yazılım dili Abap üzerine staj yaptım.",
+      },
+    ],
+    education: [
+      {
+        id: "education-ktu",
+        school: "Karadeniz Teknik Üniversitesi, Mühendislik Fakültesi",
+        degree: "Bilgisayar Mühendisliği",
+        location: "",
+        startDate: "09/2014",
+        endDate: "06/2018",
+        description: "",
+      },
+      {
+        id: "education-huriye-suer",
+        school: "Huriye Süer Anadolu Lisesi",
+        degree: "",
+        location: "Samsun",
+        startDate: "09/2010",
+        endDate: "06/2014",
+        description: "",
+      },
+    ],
+    languages: [],
+    references: [
+      {
+        id: "reference-caner-cakibey",
+        name: "Caner Çakibey",
+        company: "PrimeTech",
+        role: "Senior Frontend Team Lead",
+        email: "",
+        phone: "05522237064",
+      },
+      {
+        id: "reference-cem-onal",
+        name: "Cem Önal",
+        company: "TalkRemit",
+        role: "Software Development Team Leader",
+        email: "",
+        phone: "05362253906",
+      },
+      {
+        id: "reference-fahri-kaya",
+        name: "Fahri Kaya",
+        company: "Gini Finansal Danışmanlık ve Bilgi Hizmetleri",
+        role: "Software Developer / Architect",
+        email: "",
+        phone: "05326387359",
+      },
+    ],
+    socialLinks: [
+      {
+        id: "link-github",
+        label: "Github",
+        url: "https://github.com/busraguler",
+      },
+      {
+        id: "link-linkedin",
+        label: "Linkedin",
+        url: "https://www.linkedin.com/in/b%C3%BC%C5%9Fra-g%C3%BCler-906022167/",
+      },
+    ],
+  };
+}

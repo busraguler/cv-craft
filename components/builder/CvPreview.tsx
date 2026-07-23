@@ -9,7 +9,45 @@ function hasText(...values: string[]) {
   return values.some((value) => value.trim());
 }
 
+const translations = {
+  en: {
+    yourName: "Your Name",
+    contact: "Contact Information",
+    email: "Email",
+    phone: "Phone",
+    address: "Address",
+    link: "Link",
+    about: "About Me",
+    skills: "Skills",
+    workExperience: "Work Experience",
+    role: "Role",
+    education: "Education",
+    degree: "Degree",
+    languages: "Languages",
+    references: "References",
+    present: "Present",
+  },
+  tr: {
+    yourName: "Adınız Soyadınız",
+    contact: "İletişim Bilgileri",
+    email: "E-posta",
+    phone: "Telefon",
+    address: "Adres",
+    link: "Bağlantı",
+    about: "Hakkımda",
+    skills: "Yetenekler",
+    workExperience: "İş Deneyimi",
+    role: "Pozisyon",
+    education: "Eğitim",
+    degree: "Bölüm",
+    languages: "Diller",
+    references: "Referanslar",
+    present: "Devam Ediyor",
+  },
+} as const;
+
 export function CvPreview({ cv }: CvPreviewProps) {
+  const text = translations[cv.language ?? "en"];
   const skills = cv.skills.filter((skill) => skill.trim());
   const workExperience = cv.workExperience.filter((item) =>
     hasText(item.company, item.role, item.description),
@@ -28,7 +66,7 @@ export function CvPreview({ cv }: CvPreviewProps) {
   );
 
   return (
-    <section className="min-h-0 overflow-y-auto rounded-lg border border-slate-200 bg-slate-200/70 p-3 shadow-sm">
+    <section className="min-h-0 overflow-y-auto rounded-2xl border border-slate-200 bg-slate-200/70 p-3 shadow-sm">
       <div className="mb-3 flex items-center justify-between px-1">
         <h2 className="text-base font-semibold text-slate-950">Preview</h2>
         <span className="text-xs font-medium text-slate-500">
@@ -39,33 +77,75 @@ export function CvPreview({ cv }: CvPreviewProps) {
       <article
         id="cv-preview"
         aria-label="CV preview"
-        className="cv-preview mx-auto min-h-[960px] w-full max-w-[794px] bg-white px-10 py-10 text-slate-950 shadow-lg"
+        className="cv-preview mx-auto min-h-[960px] w-full max-w-[794px] bg-white px-10 py-10 text-slate-950 shadow-md"
       >
         <header className="border-b border-slate-300 pb-5">
           <h1 className="text-3xl font-bold tracking-normal">
-            {cv.personalInfo.fullName || "Your Name"}
+            {cv.personalInfo.fullName || text.yourName}
           </h1>
           {cv.personalInfo.jobTitle ? (
             <p className="mt-1 text-base font-medium text-slate-700">
               {cv.personalInfo.jobTitle}
             </p>
           ) : null}
-          <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate-600">
-            {cv.personalInfo.email ? <span>{cv.personalInfo.email}</span> : null}
-            {cv.personalInfo.phone ? <span>{cv.personalInfo.phone}</span> : null}
-            {cv.personalInfo.location ? (
-              <span>{cv.personalInfo.location}</span>
-            ) : null}
-            {socialLinks.map((link) => (
-              <span key={link.id}>{link.label || link.url}</span>
-            ))}
-          </div>
+          {hasText(
+            cv.personalInfo.email,
+            cv.personalInfo.phone,
+            cv.personalInfo.location,
+            ...socialLinks.flatMap((link) => [link.label, link.url]),
+          ) ? (
+            <div className="mt-4">
+              <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800">
+                {text.contact}
+              </h2>
+              <div className="mt-2 flex flex-col gap-1 text-sm text-slate-600">
+                {cv.personalInfo.email ? (
+                  <p>
+                    <span className="font-semibold text-slate-800">{text.email}:</span>{" "}
+                    <a href={`mailto:${cv.personalInfo.email}`}>
+                      {cv.personalInfo.email}
+                    </a>
+                  </p>
+                ) : null}
+                {cv.personalInfo.phone ? (
+                  <p>
+                    <span className="font-semibold text-slate-800">{text.phone}:</span>{" "}
+                    <a href={`tel:${cv.personalInfo.phone}`}>
+                      {cv.personalInfo.phone}
+                    </a>
+                  </p>
+                ) : null}
+                {cv.personalInfo.location ? (
+                  <p>
+                    <span className="font-semibold text-slate-800">{text.address}:</span>{" "}
+                    {cv.personalInfo.location}
+                  </p>
+                ) : null}
+                {socialLinks.map((link) => {
+                  const label = link.label || text.link;
+
+                  return (
+                    <p key={link.id}>
+                      <span className="font-semibold text-slate-800">
+                        {label}:
+                      </span>{" "}
+                      {link.url ? (
+                        <a href={link.url} target="_blank" rel="noreferrer">
+                          {link.url}
+                        </a>
+                      ) : null}
+                    </p>
+                  );
+                })}
+              </div>
+            </div>
+          ) : null}
         </header>
 
-        <div className="mt-6 space-y-6">
+        <div className="mt-8 space-y-9">
           {cv.about.trim() ? (
             <section>
-              <h2 className="cv-heading">About Me</h2>
+              <h2 className="cv-heading">{text.about}</h2>
               <p className="mt-2 text-sm leading-6 text-slate-700">
                 {cv.about}
               </p>
@@ -74,7 +154,7 @@ export function CvPreview({ cv }: CvPreviewProps) {
 
           {skills.length > 0 ? (
             <section>
-              <h2 className="cv-heading">Skills</h2>
+              <h2 className="cv-heading">{text.skills}</h2>
               <p className="mt-2 text-sm leading-6 text-slate-700">
                 {skills.join(", ")}
               </p>
@@ -83,13 +163,13 @@ export function CvPreview({ cv }: CvPreviewProps) {
 
           {workExperience.length > 0 ? (
             <section>
-              <h2 className="cv-heading">Work Experience</h2>
+              <h2 className="cv-heading">{text.workExperience}</h2>
               <div className="mt-3 space-y-5">
                 {workExperience.map((item) => (
                   <div key={item.id}>
                     <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                       <h3 className="text-base font-semibold text-slate-950">
-                        {item.role || "Role"}
+                        {item.role || text.role}
                         {item.company ? `, ${item.company}` : ""}
                       </h3>
                       <p className="text-sm font-medium text-slate-600">
@@ -97,6 +177,7 @@ export function CvPreview({ cv }: CvPreviewProps) {
                           item.startDate,
                           item.endDate,
                           item.current,
+                          text.present,
                         )}
                       </p>
                     </div>
@@ -124,13 +205,13 @@ export function CvPreview({ cv }: CvPreviewProps) {
 
           {education.length > 0 ? (
             <section>
-              <h2 className="cv-heading">Education</h2>
+              <h2 className="cv-heading">{text.education}</h2>
               <div className="mt-3 space-y-4">
                 {education.map((item) => (
                   <div key={item.id}>
                     <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                       <h3 className="text-base font-semibold text-slate-950">
-                        {item.degree || "Degree"}
+                        {item.degree || text.degree}
                         {item.school ? `, ${item.school}` : ""}
                       </h3>
                       <p className="text-sm font-medium text-slate-600">
@@ -155,7 +236,7 @@ export function CvPreview({ cv }: CvPreviewProps) {
 
           {languages.length > 0 ? (
             <section>
-              <h2 className="cv-heading">Languages</h2>
+              <h2 className="cv-heading">{text.languages}</h2>
               <p className="mt-2 text-sm leading-6 text-slate-700">
                 {languages
                   .map((item) =>
@@ -168,7 +249,7 @@ export function CvPreview({ cv }: CvPreviewProps) {
 
           {references.length > 0 ? (
             <section>
-              <h2 className="cv-heading">References</h2>
+              <h2 className="cv-heading">{text.references}</h2>
               <div className="mt-3 grid gap-4 sm:grid-cols-2">
                 {references.map((item) => (
                   <div key={item.id} className="text-sm leading-6 text-slate-700">

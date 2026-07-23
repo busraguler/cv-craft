@@ -73,6 +73,7 @@ export function createEmptyCv(): CvDocument {
   return {
     id: createId(),
     name: "Untitled CV",
+    language: "en",
     createdAt: now,
     updatedAt: now,
     personalInfo: {

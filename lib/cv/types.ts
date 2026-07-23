@@ -48,9 +48,12 @@ export type SocialLink = {
   url: string;
 };
 
+export type CvLanguage = "tr" | "en";
+
 export type CvDocument = {
   id: string;
   name: string;
+  language: CvLanguage;
   createdAt: string;
   updatedAt: string;
   personalInfo: PersonalInfo;

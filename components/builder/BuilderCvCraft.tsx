@@ -6,15 +6,15 @@ import { useEffect, useMemo, useState } from "react";
 import { CvEditor } from "@/components/builder/CvEditor";
 import { CvPreview } from "@/components/builder/CvPreview";
 import { CvSidebar } from "@/components/builder/CvSidebar";
+import { createBusraGulerCv } from "@/lib/cv/busra-guler";
 import { createEmptyCv, touchCv } from "@/lib/cv/defaults";
 import { clearCvs, getLatestCv, loadCvs, saveCvs } from "@/lib/cv/storage";
 import type { CvDocument } from "@/lib/cv/types";
 import { validateCv } from "@/lib/cv/validation";
 
-type MobileTab = "cvs" | "editor" | "preview";
+type MobileTab = "editor" | "preview";
 
 const tabs: Array<{ id: MobileTab; label: string }> = [
-  { id: "cvs", label: "CVs" },
   { id: "editor", label: "Editor" },
   { id: "preview", label: "Preview" },
 ];
@@ -24,6 +24,7 @@ export function BuilderCvCraft() {
   const [cvs, setCvs] = useState<CvDocument[]>([]);
   const [selectedId, setSelectedId] = useState<string>();
   const [activeTab, setActiveTab] = useState<MobileTab>("editor");
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [hydrated, setHydrated] = useState(false);
   const [pendingExportId, setPendingExportId] = useState<string>();
 
@@ -35,7 +36,7 @@ export function BuilderCvCraft() {
         setCvs(storedCvs);
         setSelectedId(getLatestCv(storedCvs)?.id);
       } else {
-        const firstCv = createEmptyCv();
+        const firstCv = createBusraGulerCv();
         setCvs([firstCv]);
         setSelectedId(firstCv.id);
       }
@@ -89,6 +90,7 @@ export function BuilderCvCraft() {
     setCvs((current) => [nextCv, ...current]);
     setSelectedId(nextCv.id);
     setActiveTab("editor");
+    setSidebarOpen(false);
   }
 
   function updateSelectedCv(nextCv: CvDocument) {
@@ -161,24 +163,24 @@ export function BuilderCvCraft() {
         <div>
           <Link
             href="/"
-            className="text-sm font-semibold text-slate-500 transition hover:text-slate-950 focus:outline-none focus:ring-4 focus:ring-slate-200"
+            className="text-sm font-bold text-slate-900 transition hover:text-black focus:outline-none focus:ring-4 focus:ring-slate-100"
           >
             CV Craft
           </Link>
-          <h1 className="text-xl font-semibold text-slate-950">CV Builder</h1>
+          <h1 className="text-xl font-semibold text-slate-900">CV Builder</h1>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={() => exportCv(selectedCv.id)}
-            className="h-10 rounded-lg bg-slate-950 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-300"
+            className="h-10 rounded-xl bg-slate-900 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-black focus:outline-none focus:ring-4 focus:ring-slate-200"
           >
             Download PDF
           </button>
           <button
             type="button"
             onClick={signOut}
-            className="h-10 rounded-lg border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 focus:outline-none focus:ring-4 focus:ring-slate-200"
+            className="h-10 rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-100"
           >
             Sign out
           </button>
@@ -186,7 +188,7 @@ export function BuilderCvCraft() {
       </header>
 
       <nav
-        className="grid grid-cols-3 gap-2 border-b border-slate-200 bg-white p-3 lg:hidden"
+        className="grid grid-cols-2 gap-2 border-b border-slate-200 bg-white p-3 lg:hidden"
         aria-label="Builder sections"
       >
         {tabs.map((tab) => (
@@ -194,9 +196,9 @@ export function BuilderCvCraft() {
             key={tab.id}
             type="button"
             onClick={() => setActiveTab(tab.id)}
-            className={`h-10 rounded-lg text-sm font-semibold transition focus:outline-none focus:ring-4 focus:ring-slate-200 ${
+            className={`h-10 rounded-xl text-sm font-semibold transition focus:outline-none focus:ring-4 focus:ring-slate-100 ${
               activeTab === tab.id
-                ? "bg-slate-950 text-white"
+                ? "bg-slate-900 text-white shadow-sm"
                 : "bg-slate-100 text-slate-600 hover:bg-slate-200"
             }`}
           >
@@ -205,8 +207,32 @@ export function BuilderCvCraft() {
         ))}
       </nav>
 
-      <div className="grid min-h-0 flex-1 gap-4 p-4 lg:grid-cols-[280px_minmax(420px,1fr)_minmax(360px,0.95fr)] lg:p-6">
-        <div className={`${activeTab === "cvs" ? "block" : "hidden"} lg:block`}>
+      <button
+        type="button"
+        onClick={() => setSidebarOpen((open) => !open)}
+        aria-expanded={sidebarOpen}
+        aria-controls="cv-drawer"
+        aria-label={sidebarOpen ? "Close CV list" : "Open CV list"}
+        className={`fixed top-20 z-[60] flex size-11 items-center justify-center rounded-r-xl border border-l-0 border-slate-800 bg-slate-900 text-2xl font-semibold text-white shadow-md transition-[left,background-color] hover:bg-black focus:outline-none focus:ring-4 focus:ring-slate-200 ${
+          sidebarOpen ? "left-[min(90vw,340px)]" : "left-0"
+        }`}
+      >
+        <span aria-hidden="true">{sidebarOpen ? "‹" : "›"}</span>
+      </button>
+
+      {sidebarOpen ? (
+        <div
+          className="fixed inset-0 z-50 bg-slate-950/35 backdrop-blur-[2px]"
+          role="dialog"
+          aria-modal="true"
+          aria-label="CV list"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              setSidebarOpen(false);
+            }
+          }}
+        >
+          <div id="cv-drawer" className="h-full w-[min(90vw,340px)]">
           <CvSidebar
             cvs={sortedCvs}
             selectedId={selectedCv.id}
@@ -214,11 +240,20 @@ export function BuilderCvCraft() {
             onSelect={(id) => {
               setSelectedId(id);
               setActiveTab("editor");
+              setSidebarOpen(false);
             }}
             onDelete={deleteCv}
-            onExport={exportCv}
+            onExport={(id) => {
+              setSidebarOpen(false);
+              exportCv(id);
+            }}
+            onClose={() => setSidebarOpen(false)}
           />
+          </div>
         </div>
+      ) : null}
+
+      <div className="grid min-h-0 flex-1 gap-5 p-4 lg:grid-cols-[minmax(420px,1fr)_minmax(360px,0.95fr)] lg:p-6">
 
         <div
           className={`${activeTab === "editor" ? "block" : "hidden"} min-h-0 lg:block`}

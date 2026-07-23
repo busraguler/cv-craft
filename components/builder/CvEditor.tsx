@@ -106,8 +106,24 @@ export function CvEditor({ cv, validation, onChange }: CvEditorProps) {
   }
 
   return (
-    <section className="min-h-0 overflow-y-auto rounded-lg border border-slate-200 bg-slate-100/60 p-3 shadow-sm">
-      <div className="mb-3 rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+    <section className="min-h-0 overflow-y-auto rounded-2xl border border-slate-200 bg-slate-100/70 p-3 shadow-sm">
+      <div className="mb-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+        <label className="mb-4 block text-sm font-medium text-slate-800">
+          CV Language
+          <select
+            className="mt-1.5 block w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition hover:border-slate-300 focus:border-slate-900 focus:ring-4 focus:ring-slate-100"
+            value={cv.language}
+            onChange={(event) =>
+              update({
+                ...cv,
+                language: event.target.value === "tr" ? "tr" : "en",
+              })
+            }
+          >
+            <option value="tr">Türkçe</option>
+            <option value="en">English</option>
+          </select>
+        </label>
         <Field
           label="CV Name"
           value={cv.name}
@@ -195,7 +211,7 @@ export function CvEditor({ cv, validation, onChange }: CvEditorProps) {
             <button
               type="button"
               onClick={() => update({ ...cv, skills: [...cv.skills, ""] })}
-              className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200"
+              className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-100"
             >
               Add Skill
             </button>
@@ -296,7 +312,7 @@ export function CvEditor({ cv, validation, onChange }: CvEditorProps) {
                   ],
                 })
               }
-              className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200"
+              className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-100"
             >
               Add Experience
             </button>
@@ -380,7 +396,7 @@ export function CvEditor({ cv, validation, onChange }: CvEditorProps) {
                   education: [...cv.education, createEmptyEducation()],
                 })
               }
-              className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200"
+              className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-100"
             >
               Add Education
             </button>
@@ -427,7 +443,7 @@ export function CvEditor({ cv, validation, onChange }: CvEditorProps) {
                   languages: [...cv.languages, createEmptyLanguage()],
                 })
               }
-              className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200"
+              className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-100"
             >
               Add Language
             </button>
@@ -505,7 +521,7 @@ export function CvEditor({ cv, validation, onChange }: CvEditorProps) {
                   references: [...cv.references, createEmptyReference()],
                 })
               }
-              className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200"
+              className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-100"
             >
               Add Reference
             </button>
@@ -554,7 +570,7 @@ export function CvEditor({ cv, validation, onChange }: CvEditorProps) {
                   socialLinks: [...cv.socialLinks, createEmptySocialLink()],
                 })
               }
-              className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200"
+              className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-100"
             >
               Add Link
             </button>
