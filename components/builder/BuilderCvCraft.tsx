@@ -6,7 +6,6 @@ import { useEffect, useMemo, useState } from "react";
 import { CvEditor } from "@/components/builder/CvEditor";
 import { CvPreview } from "@/components/builder/CvPreview";
 import { CvSidebar } from "@/components/builder/CvSidebar";
-import { createBusraGulerCv } from "@/lib/cv/busra-guler";
 import { createEmptyCv, touchCv } from "@/lib/cv/defaults";
 import { clearCvs, getLatestCv, loadCvs, saveCvs } from "@/lib/cv/storage";
 import type { CvDocument } from "@/lib/cv/types";
@@ -36,7 +35,7 @@ export function BuilderCvCraft() {
         setCvs(storedCvs);
         setSelectedId(getLatestCv(storedCvs)?.id);
       } else {
-        const firstCv = createBusraGulerCv();
+        const firstCv = createEmptyCv();
         setCvs([firstCv]);
         setSelectedId(firstCv.id);
       }
